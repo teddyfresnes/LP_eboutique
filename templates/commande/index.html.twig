@@ -1,0 +1,17 @@
+{# templates/panier/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+{% block body %}
+<h2>Merci de votre achat !</h2>
+<h2>Détails de la Commande</h2>
+<p>Date de la commande : {{ commande.dateCommande|date('d/m/Y H:i:s') }}</p>
+<p>ID de la commande : {{ commande.id }}</p>
+<p>Prix total : {{ commande.prix }} €</p>
+
+<div class="btn-group btn-dark">
+    <a href="{{ path('profil') }}" class="btn btn-primary">Voir mes commandes</a>
+    <a href="{{ path('accueil') }}" class="btn btn-secondary">Retour à l'accueil</a>
+</div>
+{% endblock %}

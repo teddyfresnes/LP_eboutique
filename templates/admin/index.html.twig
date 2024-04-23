@@ -1,0 +1,174 @@
+{# templates/accueil.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion administrateur{% endblock %}
+
+{% block body %}
+
+<script>
+function openPopup() {
+    document.getElementById("popup-ajout-voyage").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup-ajout-voyage").style.display = "none";
+}
+
+function openPopupCategory() {
+    document.getElementById("popup-ajout-categorie").style.display = "block";
+}
+
+function closePopupCategory() {
+    document.getElementById("popup-ajout-categorie").style.display = "none";
+}
+</script>
+
+<h2 class="gestion_title">Gestion des catégories de voyages</h2>
+<table class="gestion_table">
+    <thead>
+        <tr>
+            <th>Nom de la catégorie</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.nom }}</td>
+                <td>
+                    <form action="{{ path('gestion') }}" method="post" style="display: inline;">
+                        <input type="hidden" name="categoryId" value="{{ category.id }}">
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?');">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucune catégorie trouvée.</td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="2">
+                    <a href="javascript:void(0)" onclick="openPopupCategory()">Ajouter une catégorie</a>
+                </td>
+            </tr>
+    </tbody>
+</table>
+<div id="popup-ajout-categorie" class="popup" style="display: none;">
+    <div class="popup-content">
+        <span class="close" onclick="closePopupCategory()">&times;</span>
+        <h3>Ajouter une catégorie</h3>
+        <form action="{{ path('gestion') }}" method="post">
+            <div class="form-group">
+                <label pour="category_name">Nom de la catégorie :</label>
+                <input type="text" id="category_name" name="category_name" required>
+            </div>
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+<h2 class="gestion_title">Gestion des voyages :</h2>
+<table class="gestion_table">
+    <thead>
+        <tr>
+            <th>Nom du voyage</th>
+            <th>Prix (€)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voyage in voyages %}
+            <tr>
+                <td>{{ voyage.nom }}</td>
+                <td>{{ voyage.prix }}</td>
+                <td>
+                    <form action="{{ path('gestion') }}" method="post" style="display: inline;">
+                        <input type="hidden" name="voyageId" value="{{ voyage.id }}">
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce voyage ?');">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun voyage trouvé.</td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="3">
+                    <a href="javascript:void(0)" onclick="openPopup()">Ajouter un voyage</a>
+                </td>
+            </tr>
+    </tbody>
+</table>
+
+<div id="popup-ajout-voyage" class="popup" style="display: none;">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h3>Ajouter un voyage</h3>
+        <form action="{{ path('gestion') }}" method="post">
+            <div class="form-group">
+                <label for="voyage_nom">Nom du voyage :</label>
+                <input type="text" id="voyage_nom" name="voyage_nom" required>
+            </div>
+            <div class="form-group">
+                <label for="prix">Prix (€) :</label>
+                <input type="number" step="0.01" id="prix" name="prix" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description :</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">URL de l'image :</label>
+                <input type="text" id="imageUrl" name="imageUrl" maxlength="255" required>
+            </div>
+            <div class="form-group">
+                <label pour="category_id">Catégorie :</label>
+                <select id="category_id" name="category_id" required>
+                    <option value="" disabled selected>Sélectionnez une catégorie</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+<h2 class="gestion_title">Gestion utilisateurs :</h2>
+<table class="gestion_table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Adresse e-mail</th>
+            <th>Date de création</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td class="td_mail">{{ user.email }}</td>
+                <td>{{ user.dateCreation|date('d-m-Y') }}</td>
+                <td>
+                    <form action="{{ path('gestion') }}" method="post" style="display: inline;">
+                        <input type="hidden" name="userId" value="{{ user.id }}">
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun utilisateur trouvé.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

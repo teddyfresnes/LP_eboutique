@@ -1,0 +1,74 @@
+{# templates/panier/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre Panier{% endblock %}
+
+{% block body %}
+    <h1>Panier</h1>
+    {% if voyages is empty %}
+        <p>Votre panier est vide.</p>
+        <div class="add-more">
+            <a href="{{ path('accueil') }}#offres" class="">Pourquoi ne pas le remplir?</a>
+        </div>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="td_img"></th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for item in voyages %}
+                    {% set item_total = item.voyage.prix * item.quantity %}
+                    {% set total = total + item_total %}
+                    <tr>
+                        <td class="td_img">
+                            <img src="{{ item.voyage.image }}" alt="{{ item.voyage.nom }}" >
+                        </td>
+                        <td>{{ item.voyage.nom }}</td>
+                        <td>{{ item.voyage.prix }} €</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>
+                            <div style="display: inline-flex; gap: 5px;"> {# Utilise inline-flex pour mettre les boutons côte à côte #}
+                                <form action="{{ path('panier') }}" method="post" style="margin: 0;">
+                                    <input type="hidden" name="voyage_id" value="{{ item.voyage.id }}">
+                                    <input type="hidden" name="action" value="increment">
+                                    <button type="submit" class="btn btn-dark">+</button>
+                                </form>
+                                <form action="{{ path('panier') }}" method="post" style="margin: 0;">
+                                    <input type="hidden" name="voyage_id" value="{{ item.voyage.id }}">
+                                    <input type="hidden" name="action" value="decrement">
+                                    <button type="submit" class="btn btn-dark">-</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="add-more">
+            <a href="{{ path('accueil') }}#offres" class="">Ajouter d'autres voyages...</a>
+        </div>
+
+        {# Afficher le total du panier #}
+        <div class="total-section">
+            <h2 class="total">Prix total: {{ total }} €</h2>
+            <div class="details">
+                <h5>Part du voyage : {{ (total * 0.45) | round(2) }} €</h5>
+                <h5>Part de l'hébergement : {{ (total * 0.25) | round(2) }} €</h5>
+                <p>La répartition des prix est automatiquement divisée par E-TRAVEL.</p>
+            </div>
+            <form action="{{ path('commande') }}" method="post">
+                <input type="hidden" name="prix_total" value="{{ total }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('commande_form') }}"> 
+                <button type="submit" class="btn-pay">PAYER AVEC L'ARGENT IMAGINAIRE</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

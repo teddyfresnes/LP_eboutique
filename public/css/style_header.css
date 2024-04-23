@@ -1,0 +1,161 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 200px 20px 300px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333; 
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.icons-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.icons-container i {
+    font-size: 2em;
+    color: #303030;
+    text-decoration: none; 
+    padding-top: 10px;
+}
+
+.icons-container i:hover {
+    color: #606060;
+}
+
+.icons-container a:hover {
+    color: #d3d3d3; 
+}
+
+
+
+@media (max-width: 1080px) {
+    nav {
+        padding: 10px 20px;
+    }
+}
+
+
+
+
+
+
+
+
+    /* CSS https://getcssscan.com/css-buttons-examples */
+    .button_style {
+        align-items: center;
+        background-color: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: .25rem;
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        display: inline-flex;
+        font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 1.25;
+        margin: 0;
+        min-height: 3rem;
+        padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+        position: relative;
+        text-decoration: none;
+        transition: all 250ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        width: auto;
+    }
+
+        .button_style:hover,
+        .button_style:focus {
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+            color: rgba(0, 0, 0, 0.65);
+        }
+
+        .button_style:hover {
+            transform: translateY(-1px);
+        }
+
+        .button_style:active {
+            background-color: #F0F0F1;
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+            color: rgba(0, 0, 0, 0.65);
+            transform: translateY(0);
+        }
+
+
+
+
+@keyframes tipsy {
+    0 {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-50%) rotate(360deg);
+    }
+}
+
+.title-container {
+    text-align: center;
+}
+
+.title_anim {
+    display: inline-block;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 1;
+    transform: rotate(0deg);
+    font-size: 2rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.title_anim:hover {
+    opacity: 0.7;
+    transform: rotate(10deg);
+}
+
+.icons-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media (max-width: 1000px) {
+    nav {
+        flex-direction: column;
+        align-items: center; 
+        padding: 10px;
+    }
+
+    .title-container {
+        order: 2;
+    }
+
+    .icons-container {
+        order: 1;
+    }
+}

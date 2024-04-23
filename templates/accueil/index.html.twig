@@ -1,0 +1,165 @@
+﻿{# templates/accueil.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% if not selectedCategory %}
+        <h1 class="text-center">Une envie de voyage?</h1>
+        <p class="text-center" style="color: #303030;">Découvrez nos catégories basées sur les continents de la planète Terre</p>
+        <div class="row mt-4">
+            {% for category in categories %}
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">{{ category.nom }} 🌍</h3>
+                            <form action="{{ path('accueil') }}" method="POST">
+                                <input type="hidden" name="category_id" value="{{ category.id }}">
+                                <button type="submit" class="button_category">Découvrir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12 text-center">
+                    <p>Aucune catégorie n'a été trouvée.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <br/><br/><div id="offres"></div>
+    {% endif %}
+
+{% if selectedCategory %}
+    <h1 class="text-center mt-5">Offres disponibles pour la catégorie : {{ selectedCategory.nom }}</h1>
+    <div class="row mt-4">
+        {% set found_voyages = false %}
+        {% for voyage in voyages %}
+            {% if voyage.categorie.id == selectedCategory.id %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card border-0" onclick="openPopup('{{ voyage.id }}', '{{ voyage.nom|e('js') }}', '{{ voyage.description|e('js') }}', '{{ voyage.image }}', {{ voyage.prix }})">
+                        {% set voyage_parts = voyage.nom|split(':') %}
+                        <div class="aspect-ratio-wrapper">
+                            <img src="{{ voyage.image }}" alt="{{ voyage.nom }}" class="card-img-top">
+                            <div class="gradient"></div>
+                            <div class="hover-text">{{ voyage_parts[1] }}</div>
+                            <form action="{{ path('panier') }}" method="post" class="hover-form">
+                                <input type="hidden" name="voyage_id" value="{{ voyage.id }}">
+                                <button type="submit" class="hover-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-between p-0">
+                            <p class="text-dark fw-bold m-0">{{ voyage_parts[0] }}</p>
+                            <span class="text-muted">{{ voyage.prix }} €</span>
+                        </div>
+                    </div>
+                </div>
+                {% set found_voyages = true %}
+            {% endif %}
+        {% endfor %}
+        {% if not found_voyages %}
+            <div class="col-12 text-center">
+                <p>Aucun voyage trouvé pour cette catégorie.</p>
+            </div>
+        {% endif %}
+    </div>
+    <div class="add-more">
+        <br/><br/>
+        <a href="{{ path('accueil') }}" class="" onclick="location.reload(true);">Cliquez ici pour découvrir toutes les offres !</a>
+        <br/><br/>
+    </div>
+{% else %}
+    <h1 class="text-center mt-5">Découvrez toutes nos offres trop sympa</h1>
+    <div class="row mt-4">
+        {% for voyage in voyages %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card border-0" onclick="openPopup('{{ voyage.id }}', '{{ voyage.nom|e('js') }}', '{{ voyage.description|e('js') }}', '{{ voyage.image }}', {{ voyage.prix }})">
+                    {% set voyage_parts = voyage.nom|split(':') %}
+                    <div class="aspect-ratio-wrapper">
+                        <img src="{{ voyage.image }}" alt="{{ voyage.nom }}" class="card-img-top">
+                        <div class="gradient"></div>
+                        <div class="hover-text">{{ voyage_parts[1] }}</div>
+                        <form action="{{ path('panier') }}" method="post" class="hover-form">
+                            <input type="hidden" name="voyage_id" value="{{ voyage.id }}">
+                            <button type="submit" class="hover-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="d-flex justify-content-between p-0">
+                        <p class="text-dark fw-bold m-0">{{ voyage_parts[0] }}</p>
+                        <span class="text-muted">{{ voyage.prix }} €</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<br/><br/><br/><br/>
+{% if selectedCategory %}
+    <h1 class="text-center">Un autre continent vous interèsse?</h1>
+    <p class="text-center" style="color: #303030;">Découvrez nos catégories basées sur les continents de la planète Terre</p>
+    <div class="row mt-4">
+        {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="card border-0">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">{{ category.nom }} 🌍</h3>
+                        <form action="{{ path('accueil') }}" method="POST">
+                            <input type="hidden" name="category_id" value="{{ category.id }}">
+                            <button type="submit" class="button_category">Découvrir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center">
+                <p>Aucune catégorie n'a été trouvée.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    <div id="popup-offer" class="popup2" style="display: none;">
+        <div class="popup-content2">
+            <span class="close" onclick="closePopup()"> &times; </span>
+            <div id="popup-content2">
+                <img src="" alt="Image du voyage" id="popup-image">
+                <h2 id="popup-title"></h2>
+                <h3 id="popup-price"></h3>
+                <p id="popup-description"></p>
+                <form action="{{ path('panier') }}" method="post">
+                    <input type="hidden" name="voyage_id" value="">
+                    <button type="submit" class="btn btn-dark">Ajouter au panier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/><br/><br/><br/><br/>
+    <h1 class="text-center">Un envie d'administration?</h1>
+    <p class="text-center" style="color: #303030;">Parce que vous vous sentez en manque de pouvoir, chez E-TRAVEL, nous vous redonnons foi en vous<br/>Vous pouvez gérer les users, les offres et les catégories sur le compte <bold>admin@admin.admin</bold> avec le mdp <bold>admin</bold></p>
+    <br/><br/><br/><br/>
+</div>
+
+<script>
+function openPopup(id, nom, description, image, prix) {
+    document.getElementById("popup-image").src = image;
+    document.getElementById("popup-title").innerText = nom;
+    document.getElementById("popup-description").innerText = description;
+    document.getElementById("popup-price").innerText = prix + " €";
+    const voyageInput = document.querySelector("#popup-content2 input[name='voyage_id']");
+    if (voyageInput) {
+        voyageInput.value = id;
+    }
+    document.getElementById("popup-offer").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup-offer").style.display = "none";
+}
+</script>
+
+
+{% endblock %}

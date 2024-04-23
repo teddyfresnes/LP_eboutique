@@ -1,0 +1,43 @@
+# config/routes.yaml
+
+#controllers:
+#    resource:
+#        path: ../src/Controller/
+#        namespace: App\Controller
+#    type: attribute
+
+accueil:
+    path: /
+    controller: 'App\Controller\AccueilController::index'
+
+accueil_alt:
+    path: /accueil
+    controller: 'App\Controller\AccueilController::index'
+
+inscription:
+    path: /inscription
+    controller: 'App\Controller\UtilisateurController::inscription'
+
+connexion:
+    path: /connexion
+    controller: 'App\Controller\UtilisateurController::connexion'
+
+deconnexion:
+    path: /deconnexion
+    controller: 'App\Controller\UtilisateurController::deconnexion'
+
+gestion:
+    path: /gestion
+    controller: 'App\Controller\AdminController::index'
+
+panier:
+    path: /panier
+    controller: 'App\Controller\PanierController::index'
+
+commande:
+    path: /commande
+    controller: 'App\Controller\CommandeController::index'
+
+profil:
+    path: /profil
+    controller: 'App\Controller\UtilisateurController::index'

@@ -1,0 +1,31 @@
+{# templates/connexion.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <h1>Profil</h1>
+    <p class="small-text">Compte créé le {{ user.getDateCreation().format('d/m/Y') }} à {{ user.getDateCreation().format('H:i') }}</p>
+    <form action="{{ path('profil') }}" method="post">
+        <label for="nom">Nom :</label><br>
+        <input type="text" id="nom" name="nom" value="{{ user.nom }}"><br>
+
+        <label for="adresse_livraison">Adresse de livraison :</label><br>
+        <input type="text" id="adresse_livraison" name="adresse_livraison" value="{{ user.adresseLivraison }}"><br>
+
+        <input type="submit" value="Mettre à jour">
+    </form>
+
+    <br><br/><br/><br/><br/>
+    <h1>Mes commandes</h1>
+    <ul>
+        {% for commande in commandes %}
+            <li>
+                Commande #{{ commande.getId() }} le {{ commande.getDateCommande().format('d/m/Y') }} à {{ commande.getDateCommande().format('H:i') }} : {{ commande.getPrix() }} €
+            </li>
+        {% else %}
+            <li>Pas de commandes pour le moment.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,35 @@
+﻿{# templates/header.html.twig #}
+
+<link rel="stylesheet" href="{{ asset('css/style_header.css') }}">
+
+<nav>
+    <ul>
+        <li><a href="{{ path('accueil') }}" class="title_anim">E-TRAVEL</a></li>
+    </ul>
+    
+    <div >
+
+    </div>
+    
+    <div class="icons-container">
+        {% if app.session.get('user_id') is not null %}
+            <p class="icons-container">
+                <a href="{{ path('profil') }}" class="icon-account">
+                    <i class="fas fa-user-circle"></i> 
+                </a>
+                <a href="{{ path('panier') }}" class="icon-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+                {% if app.session.get('user_email') == 'admin@admin.admin' %}
+                    <a href="{{ path('gestion') }}" class="button_style">Admin ⚙️</a>
+                {% endif %}
+                <a href="{{ path('deconnexion') }}" class="button_style">Déconnexion</a>
+            </p>
+        {% else %}
+            <p>
+                <a href="{{ path('connexion') }}" class="button_style">Se connecter</a>
+                <a href="{{ path('inscription') }}" class="button_style">S'inscrire</a>
+            </p>
+        {% endif %}
+    </div>
+</nav>
