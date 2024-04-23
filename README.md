@@ -1,5 +1,7 @@
 # LP_eboutique
-Création d'une boutique en ligne de voyages avec Symfony : [http://teddy.alwaysdata.net/](http://teddy.alwaysdata.net/)
+Création d'une boutique en ligne de voyages avec Symfony 7 : [http://teddy.alwaysdata.net/](http://teddy.alwaysdata.net/)  
+Symfony 7.0.6  
+PHP 8.2.14  
 
 ## Cahier des charges
 - L'utilisateur final pourra naviguer entre catégories de produits et choisir un produit pour le mettre dans son panier (on choisira de placer plutôt le panier en variable de session, mais la solution qu'il soit dans la base est aussi possible).
@@ -34,6 +36,7 @@ Création d'une boutique en ligne de voyages avec Symfony : [http://teddy.always
 - Le panier est géré dans la session utilisateur.
 - L'utilisateur peut ajuster les quantités dans le panier avec le prix total.
 - Redirection vers les détails de la commande après l'achat, et réinitialisation du panier.
+- Insertion d'un token CsrfToken sur la commande pour sécuriser l'envoi du form (test perso)
 - L'utilisateur doit s'inscrire avec un nom, un e-mail, un mot de passe, et une adresse de livraison.
 - Lors de la connexion à la boutique, les paramètres de connexion sont stockés en session.
 - L'utilisateur peut accéder à son profil pour le mettre à jour.
